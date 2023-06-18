@@ -22,3 +22,12 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+#    Sentry\Integration\IgnoreErrorsIntegration:
+#        arguments:
+#            $options:
+#                ignore_exceptions:
+#                    - 'Symfony\Component\Routing\Exception\ResourceNotFoundException'
+#                    - 'Symfony\Component\HttpKernel\Exception\NotFoundHttpException'
+#                    - 'Symfony\Component\Security\Core\Exception\AuthenticationException'
+#                    - 'Symfony\Component\Security\Core\Exception\AccessDeniedException'
