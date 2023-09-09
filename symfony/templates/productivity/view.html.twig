@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+  <style>
+      html, body {
+          width: 100%;
+          height:100%;
+          color: white;
+      }
+      body {
+          background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+          background-size: 400% 400%;
+          animation: gradient 15s ease infinite;
+      }
+      @keyframes gradient {
+          0% {
+              background-position: 0% 50%;
+          }
+          50% {
+              background-position: 100% 50%;
+          }
+          100% {
+              background-position: 0% 50%;
+          }
+      }
+      li {
+          margin-bottom: 10px;
+      }
+      .blur {
+          filter: blur(3px);
+          -webkit-filter: blur(3px);
+          /*color: transparent;*/
+          /*text-shadow: 0 0 8px #000;*/
+      }
+  </style>
+{% endblock %}
+{% block body %}
+  <h1>Increase your productivity</h1>
+  <h2>PHPStorm configuration</h2>
+  <ul>
+    <li class="blur">Tabs : File > Settings > Editor > Editor tabs > Uncheck "Show tabs in one row"</li>
+    <li class="blur">You can also change the tabs limit below</li>
+    <li class="blur">Commit / Local changes : File > Settings > Version Control > Commit > Uncheck "Use non-modal commit interface"</li>
+    <li class="blur">Make global your database to have access to them from every projects</li>
+  </ul>
+  <h2>PHPStorm shortcuts</h2>
+  <ul>
+    <li class="blur">Duplicate a line : ctrl + d</li>
+    <li class="blur">Select all next same item : alt +j</li>
+    <li class="blur">Multiply your pointer with the wheel of your mouse</li>
+    <li class="blur">Renaming : shift + f6</li>
+    <li class="blur">UPPER / lower : alt + u</li>
+    <li class="blur">The target to locate your file in all directories</li>
+    <li class="blur">Focus on code, double-click on your file in tabs</li>
+    <li class="blur">Go to / Go back : ctrl + click on variable or function. alt + shift + right/left</li>
+    <li class="blur">Looking for file : ctrl + shift + n, something : ctrl + shift + f or all shift (x3)</li>
+    <li class="blur">Comment / Uncomment : ctrl + /</li>
+    <li class="blur">Scratch : ctrl + alt + shift + insert</li>
+  </ul>
+  <h2><a target="_blank" href="https://git-scm.com/docs">Git</a></h2>
+  <ul>
+    <li class="blur">git status</li>
+    <li class="blur">git add .</li>
+    <li class="blur">git commit -m "feat(supplierReturn): crud [ref BD-6913]" <a target="_blank" href="https://grafikart.fr/tutoriels/nommage-commit-1009">Name your commit properly</a></li>
+    <li class="blur">git push</li>
+    <li class="blur">git commit --amend</li>
+    <li class="blur">git push --force-with-lease</li>
+    <li class="blur">git stash</li>
+    <li class="blur">git stash pop</li>
+    <li class="blur">git checkout -</li>
+    <li class="blur">git checkout . (all files modified go back to before your modification)</li>
+    <li class="blur">git clean -fd (remove files not versioned) (force and directories)</li>
+  </ul>
+{% endblock %}
+
+{% block javascripts %}
+  <script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      document.querySelectorAll('li').forEach(li => {
+        li.addEventListener('click', event => {
+          if (li.classList.contains('blur')) {
+            li.classList.remove('blur');
+          } else {
+            li.classList.add('blur');
+          }
+        })
+      })
+    });
+  </script>
+{% endblock %}
+
