@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+{% block stylesheets %}
+  {{ parent() }}
+  <style>
+
+  </style>
+{% endblock %}
+{% block main %}
+  <h1>Form by Symfony</h1>
+  {{ form_start(form) }}
+  {{ form_row(form.title) }}
+  {{ form_row(form.status) }}
+
+{#  {% if form.tags is defined %}#}
+    <h3>Tags <button type="button" class="add_item_link" data-collection-holder-class="tags">Add a tag</button></h3>
+    <ul class="tags"
+        data-index="{{ form.tags|length > 0 ? form.tags|last.vars.name + 1 : 0 }}"
+        data-prototype="{{ form_widget(form.tags.vars.prototype)|e('html_attr') }}"
+    ></ul>
+{#  {% endif %}#}
+  {{ form_end(form) }}
+
+  <h2>Helpers</h2>
+  <ul>
+    <li><a href="https://symfony.com/doc/current/form/form_collections.html">Symfony docs</a></li>
+    <li><a href="https://github.com/a2lix/symfony-collection">Help 1 given by Symfony</a></li>
+    <li><a href="https://symfony-collection.fuz.org/symfony3/#">Help 2 given by Symfony</a></li>
+  </ul>
+
+{% endblock %}
+
+{% block javascripts %}
+  {{ parent() }}
+  <script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      const addFormToCollection = (e) => {
+        const collectionHolder = document.querySelector('.' + e.currentTarget.dataset.collectionHolderClass);
+
+        const item = document.createElement('li');
+
+        item.innerHTML = collectionHolder
+          .dataset
+          .prototype
+          .replace(
+            /__name__/g,
+            collectionHolder.dataset.index
+          );
+
+        collectionHolder.appendChild(item);
+
+        collectionHolder.dataset.index++;
+      };
+
+      document
+        .querySelectorAll('.add_item_link')
+        .forEach(btn => {
+          btn.addEventListener("click", addFormToCollection)
+        });
+    });
+  </script>
+{% endblock %}
+

@@ -3,6 +3,7 @@
 namespace App\Twig;
 
 use App\Entity\Article;
+use App\Enum\ArticleStatusEnum;
 use App\Repository\ArticleRepository;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
@@ -60,8 +61,8 @@ class AppExtension extends AbstractExtension
 
         if ($object instanceof Article) {
             $label = match ($object->status) {
-                Article::STATUS_PUBLISHED => 'success',
-                Article::STATUS_DRAFT => 'warning',
+                ArticleStatusEnum::STATUS_PUBLISHED => 'success',
+                ArticleStatusEnum::STATUS_DRAFT => 'warning',
                 default => 'info',
             };
 
