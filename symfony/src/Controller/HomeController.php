@@ -3,18 +3,14 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'home_page')]
-    public function home(): Response
+    public function home(): RedirectResponse
     {
-        // Imagine we have a service returning a string
-        $myString = 'Hello Mister Auto';
-        return $this->render('home/view.html.twig', [
-            'myString' => $myString
-        ]);
+        return $this->redirectToRoute('filters_page');
     }
 }

@@ -15,14 +15,14 @@ class AppExtension extends AbstractExtension
     {
         return [
             new TwigFunction('countUpper', [$this, 'countUpperLetter']),
-//            new TwigFunction('getMostRecentArticle', [$this, 'getMostRecentArticle']),
+            new TwigFunction('getMostRecentArticle', [$this, 'getMostRecentArticle']),
         ];
     }
     public function getFilters(): array
     {
         return [
             new TwigFilter('countUpper', [$this, 'countUpperLetter']),
-//            new TwigFilter('statusIcon', [$this, 'statusIcon']),
+            new TwigFilter('statusIcon', [$this, 'statusIcon']),
         ];
     }
 
@@ -35,36 +35,39 @@ class AppExtension extends AbstractExtension
         return mb_strlen($upperLetters);
     }
 
-    // TODO RUN MIGRATIONS
-//    public function getMostRecentArticle(): ?Article
-//    {
-//        $article = $this->articleRepository->getMostRecent();
-//
-//        if (!$article instanceof Article) {
-//            return null;
-//        }
-//
-//        return $article;
-//    }
-//
-//    /**
-//     * Filter to render a beautiful label regarding the given status
-//     * (published = green, draft = orange, archived = grey ...)
-//     */
-//    public function statusIcon(Object $object): ?string
-//    {
-//        $icon = '<span class="label label-%s">%s</span>';
-//
-//        if ($object instanceof Article) {
-//            $label = match ($object->status) {
-//                Article::STATUS_PUBLISHED => 'success',
-//                Article::STATUS_DRAFT => 'warning',
-//                default => 'info',
-//            };
-//
-//            return sprintf($icon, $label, $object->status);
-//        }
-//
-//        return null;
-//    }
+    /**
+     * This function required to have migrations run
+     * @return Article|null
+     */
+    public function getMostRecentArticle(): ?Article
+    {
+        $article = $this->articleRepository->getMostRecent();
+
+        if (!$article instanceof Article) {
+            return null;
+        }
+
+        return $article;
+    }
+
+    /**
+     * Filter to render a beautiful label regarding the given status
+     * (published = green, draft = orange, archived = grey ...)
+     */
+    public function statusIcon(Object $object): ?string
+    {
+        $icon = '<span class="label label-%s">%s</span>';
+
+        if ($object instanceof Article) {
+            $label = match ($object->status) {
+                Article::STATUS_PUBLISHED => 'success',
+                Article::STATUS_DRAFT => 'warning',
+                default => 'info',
+            };
+
+            return sprintf($icon, $label, $object->status);
+        }
+
+        return null;
+    }
 }
