@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\DTO\ArticleFormDTO;
 use App\Entity\Article;
 use App\Entity\Tag;
+use App\Enum\ArticleStatusEnum;
 use App\Form\ArticleType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,6 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/forms', name: 'forms_')]
 class FormsController extends AbstractController
 {
+    use JsonFormExtractorTrait;
     #[Route('/symfony', name: 'symfony')]
     public function formSymfony(
         Request $request
@@ -48,11 +51,14 @@ class FormsController extends AbstractController
     }
 
     #[Route('/dto', name: 'dto')]
-    public function formWithDto(): Response
-    {
-
+    public function formWithDto(
+    ): Response {
+        // Here you can look for article in database and send as DTO to front IN A SERVICE NOT LIKE THIS EXAMPLE
+        $articleFormDto = new ArticleFormDTO();
+        $articleFormDto->title = 'toto';
         return $this->render('forms/with_dto.html.twig', [
-
+            'articleStatusChoices' => ArticleStatusEnum::getConstants(),
+            'article' => $articleFormDto,
         ]);
     }
 }

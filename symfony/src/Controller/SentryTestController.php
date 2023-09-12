@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Exceptions\User\NotFoundException;
+use App\Exception\User\NotFoundException;
 use App\Service\SentryService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;

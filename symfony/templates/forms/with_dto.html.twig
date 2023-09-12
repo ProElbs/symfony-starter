@@ -7,13 +7,102 @@
 {% endblock %}
 {% block main %}
   <h1>Form without symfony</h1>
+  <form id="articleForm" name="article" method="post" action="{{ path('api_articles') }}">
+    <div>
+      <label for="article_title" class="required">Title</label>
+      <input
+          type="text"
+          id="article_title"
+          name="title"
+          required="required"
+          maxlength="255"
+          value="{{ article.title }}"
+      >
+    </div>
+    <div>
+      <label for="article_status" class="required">Status</label>
+      <select id="article_status" name="status">
+        {% for key,choice in articleStatusChoices %}
+          <option value="{{ key }}" {% if article.status == key %}selected{% endif %}>{{ choice }}</option>
+        {% endfor %}
+      </select>
+    </div>
 
+    <h3>Tags <button type="button" id="add_item_link">Add a tag</button></h3>
+    <ul id="tags"></ul>
+
+    <div>
+      <button type="submit" id="article_submit" name="article[submit]">Submit</button>
+    </div>
+  </form>
+
+  <a target="_blank" href="https://www.learnwithjason.dev/blog/get-form-values-as-json">Helper jsonify form</a>
 {% endblock %}
 
 {% block javascripts %}
   {{ parent() }}
   <script>
+    document.addEventListener("DOMContentLoaded", function(event) {
+      document.querySelector('#add_item_link').addEventListener("click", function(){
+        const numberOfTags = document.querySelectorAll('.tag').length;
+        addTag(numberOfTags+1)
+      });
 
+      const form = document.getElementById('articleForm');
+      form.addEventListener("submit", processForm);
+    });
+
+    function addTag(number,title = null, description = null) {
+      const ulTags = document.getElementById('tags');
+      ulTags.innerHTML += `
+        <li class="tag">
+          <label for="name${number}">Name</label>
+          <input id="name${number}" type="text" value="${title !== null ? title : ''}"><br>
+          <label for="description${number}">Description</label>
+          <input id="description${number}" type="text" value="${description !== null ? description : ''}">
+        </li>`
+      ;
+    }
+
+    function processForm(event) {
+      event.preventDefault();
+      const data = new FormData(event.target);
+
+      let value = Object.fromEntries(data.entries());
+      const liTags = document.getElementById('tags').getElementsByClassName('tag');
+      let tags = [];
+      for (let li of liTags) {
+        const inputs = li.getElementsByTagName('input')
+          tags.push({
+            'name': inputs[0].value,
+            'description': inputs[1].value
+          })
+      }
+
+      value = {
+        ...value,
+        'tags': tags
+      };
+
+      const action = document.getElementById('articleForm').action
+
+      fetch(action, {
+        method: 'post',
+        body: JSON.stringify(value),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      }).then((response) => {
+        return response.json()
+      }).then((res) => {
+        if (res.status === 201) {
+          console.log("Post successfully created!")
+        }
+      }).catch((error) => {
+        console.log(error)
+      })
+    }
   </script>
 {% endblock %}
 

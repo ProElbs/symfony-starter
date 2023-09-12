@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Exceptions\User\NotFoundException;
+use App\Exception\User\NotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 class SentryService
