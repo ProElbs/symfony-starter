@@ -32,7 +32,7 @@ class ArticleAPIController extends AbstractController
             $json->message = $exception->getMessage();
             $json->errors = $exception->getErrors();
             $response->setData($json);
-            $response->setStatusCode(Response::HTTP_BAD_REQUEST);
+            $response->setStatusCode(Response::HTTP_UNPROCESSABLE_ENTITY);
         }
 
 

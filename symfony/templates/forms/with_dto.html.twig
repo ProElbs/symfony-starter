@@ -14,7 +14,7 @@
           type="text"
           id="article_title"
           name="title"
-          required="required"
+{#          required="required"#}
           maxlength="255"
           value="{{ article.title }}"
       >
@@ -94,14 +94,31 @@
           'Content-Type': 'application/json'
         }
       }).then((response) => {
-        return response.json()
-      }).then((res) => {
-        if (res.status === 201) {
-          console.log("Post successfully created!")
+        console.log('response', response)
+        return response.json();
+        // todo
+        // return response.json()
+      }).then((data) => {
+        if (data.errors) {
+          handleFormError(data.errors)
         }
+        // todo
+        // if (res.status === 201) {
+        //   console.log("Post successfully created!")
+        // }
       }).catch((error) => {
         console.log(error)
       })
+    }
+
+    function handleFormError(errors) {
+      for(const [key, error] of Object.entries(errors)) {
+        const input = document.getElementsByName(key)[0];
+        const errorElement = document.createElement('p');
+        errorElement.style.color = 'red';
+        errorElement.innerHTML = `${error}`;
+        input.after(errorElement);
+      }
     }
   </script>
 {% endblock %}
