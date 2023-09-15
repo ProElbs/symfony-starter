@@ -33,7 +33,7 @@ class FormsController extends AbstractController
         $tag2->name = 'tag2';
         $tag2->description = 'description2';
         $article->tags->add($tag2);
-        // end dummy code
+
 
         $form = $this->createForm(ArticleType::class, $article);
 
