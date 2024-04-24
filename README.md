@@ -48,7 +48,7 @@ make install
 You should now have access to the [Homepage](http://localhost/).  
 Take a look to the Makefile to see all amazing targets available !
 
-*Note: The current PHP stable version is 8.2.7, if you want to change it, look into Dockerfile > php:8.2.7-fpm*
+*Note: The current PHP stable version is 8.3.6, if you want to change it, look into Dockerfile > php:8.3.6-fpm*
 
 ## Running the tests
 
@@ -84,4 +84,4 @@ make php-cs-fixer
 This project is licensed under the MIT License
 
 ## Version
-v1.0
+v1.1
