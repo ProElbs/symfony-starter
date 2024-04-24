@@ -1,6 +1,6 @@
 FROM composer:2.0 as composer
 
-FROM php:8.2.7-fpm
+FROM php:8.3.6-fpm
 
 RUN docker-php-ext-install pdo_mysql
 
