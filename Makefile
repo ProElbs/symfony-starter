@@ -85,9 +85,12 @@ npm-install:
 npm-add:
 	@docker-compose run --rm $(NODEJS_SERVICE) npm install -D tailwindcss postcss autoprefixer
 
-# Checkout the package.json vite target dev has been changed from "vite" to "vite build --watch"
+# Checkout the package.json if you need to add some target
 npm-dev:
 	@docker-compose run --rm $(NODEJS_SERVICE) npm run dev
+
+npm-watch:
+	@docker-compose run --rm $(NODEJS_SERVICE) npm run watch
 
 npm-build:
 	@docker-compose run --rm $(NODEJS_SERVICE) npm run build
@@ -95,5 +98,5 @@ npm-build:
 ###########
 # GLOBALS #
 ###########
-install: build composer-install install-db cache-clear
+install: build composer-install install-db cache-clear npm-install
 
