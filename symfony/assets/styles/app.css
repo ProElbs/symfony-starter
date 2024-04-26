@@ -1,3 +1,39 @@
 body {
     background-color: lightgray;
 }
+
+/* MultiStepForm.css */
+
+
+.form-container {
+    width: 100%;
+    overflow: hidden;
+}
+
+.form-wrapper {
+    position: absolute;
+}
+
+.form-step {
+    overflow: hidden;
+    left: 50vh;
+    transition: 0.5s ease; /* Use opacity for smooth transition */
+    opacity: 0; /* Initially hide all steps */
+    position: absolute; /* Ensure elements don't interfere with each other */
+}
+
+.form-step.active {
+    opacity: 1; /* Show active step */
+    z-index: 1; /* Ensure active step is on top */
+    left: 0;
+    transition: 0.5s ease;
+}
+
+form {
+    width: 100%;
+}
+
+input,
+button {
+    margin: 10px 0;
+}
