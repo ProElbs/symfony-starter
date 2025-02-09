@@ -1,8 +1,6 @@
-version:  '2.1'
-
 services:
   dbstarter:
-    image: mysql:5.7.30
+    image: mariadb:11.6.2
     user: 1000:1000
     env_file: .env
     volumes:
@@ -11,7 +9,7 @@ services:
       - "3306:3306"
 
   nginx:
-    image: nginx:1.19.0-alpine
+    image: nginx:1.27.4-alpine
     volumes:
       - './symfony:/var/www/html:delegated'
       - './var/logs/nginx:/var/log/nginx:cached'
@@ -36,7 +34,7 @@ services:
 
 # Uncomment this if you need front and add package.json into symfony folder
   nodejs:
-    image: node:18-alpine
+    image: node:23-alpine
     user: 1000:1000
     ports:
       - '3009:3009'

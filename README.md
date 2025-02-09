@@ -10,25 +10,18 @@ These instructions are made for Linux/Ubuntu users.
 
 ### Prerequisites
 
-In your `~/.bashrc` you need to have:
+You can verify `echo $UID` & `echo $GID`. Those commands should give you `1000` if you are the new user on your Ubuntu system
 
-```
-export UID
-export GID=$(id -g)
-```
-
-_Don't forget to run `source ~/.bashrc` after editing it._  
-_Then you can verify `echo $UID` & `echo $GID`. Those commands should give you `1000` if you are the new user on your Ubuntu system_
 If you don't see `1000` but for example `1001` then modify in the `docker-compose.yml` the lines `user: 1000:1000` by replacing the number.
 
-You must have docker and docker-compose installed :
+You must have docker and docker compose installed :
 
 ```shell
 docker -v
-# Docker version 24.0.2, build cb74dfc
+# Docker version 27.5.1, build 9f9e405
 
-docker-compose -v
-# docker-compose version 1.29.1, build c34c88b2
+docker compose version  
+# dDocker Compose version v2.32.4
 ```
 
 ### Installing
@@ -84,4 +77,4 @@ make php-cs-fixer
 This project is licensed under the MIT License
 
 ## Version
-v1.1
+v1.2

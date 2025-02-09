@@ -1,17 +1,14 @@
-FROM composer:2.0 as composer
+FROM composer:2.0 AS composer
 
-FROM php:8.3.6-fpm
+FROM php:8.4.3-fpm
 
 RUN docker-php-ext-install pdo_mysql
-
-RUN pecl install apcu
 
 RUN apt-get update && \
 apt-get install -y \
 libzip-dev
 
 RUN docker-php-ext-install zip
-RUN docker-php-ext-enable apcu
 
 WORKDIR /var/www/html
 

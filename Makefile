@@ -22,7 +22,7 @@ restart:
 	@docker-compose stop
 	@docker-compose up -d
 bash:
-	docker exec -it $(PROJECT_NAME)_$(PHP_SERVICE)_1 bash
+	docker exec -it $(PROJECT_NAME)-$(PHP_SERVICE)-1 bash
 
 ############
 # COMPOSER #
