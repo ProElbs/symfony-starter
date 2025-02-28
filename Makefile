@@ -74,18 +74,16 @@ cache-clear:
 phpunit:
 	@docker-compose exec -T $(PHP_SERVICE) vendor/bin/phpunit
 
-#######
-# NPM #
-#######
+########################################################
+#                        NPM                           #
+# Beta, first install Webpack to use npm with symfony  #
+########################################################
 npm-install:
 	@docker-compose run --rm $(NODEJS_SERVICE) npm install
 
-# Change "tailwindcss..." to what you want to install
-# or directly run : docker-compose run --rm nodejs XXXX
 npm-add:
-	@docker-compose run --rm $(NODEJS_SERVICE) npm install -D tailwindcss postcss autoprefixer
+	@docker-compose run --rm $(NODEJS_SERVICE) npm install -D $(COMMAND_ARGS)
 
-# Checkout the package.json vite target dev has been changed from "vite" to "vite build --watch"
 npm-dev:
 	@docker-compose run --rm $(NODEJS_SERVICE) npm run dev
 

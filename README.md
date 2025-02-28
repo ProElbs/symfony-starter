@@ -38,10 +38,15 @@ Copy the given value into your .env
 make install
 ```
 
-You should now have access to the [Homepage](http://localhost/).  
+You should now have access to the [Homepage](http://localhost/). 
+If localhost doesn't work, go on 127.0.0.1 in your browser. If this ip works, then you probably have trouble into your /etc/hosts or somewhere else, please check ask google / GPT. You can also open an issue and i'll try to reproduce.
+
+### Next
 Take a look to the Makefile to see all amazing targets available !
 
-*Note: The current PHP stable version is 8.3.6, if you want to change it, look into Dockerfile > php:8.3.6-fpm*
+*Note: The current PHP stable version is 8.4.3, if you want to change it, look into Dockerfile > php:8.4.3-fpm*
+
+*Same for Node, Nginx and MariaDB*
 
 ## Running the tests
 
@@ -62,8 +67,6 @@ Before running `make phpunit` stop the project, in your .env change the `APP_ENV
 make php-cs-fixer
 ```
 
-[Guidelines](https://spatie.be/guidelines/laravel-php)
-
 ## Built With
 
 * [Symfony](https://symfony.com/) - The web framework used
@@ -77,4 +80,4 @@ make php-cs-fixer
 This project is licensed under the MIT License
 
 ## Version
-v1.2
+v1.2.1
