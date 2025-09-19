@@ -4,7 +4,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.2",
+        "php": ">=8.4",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^2.12",
@@ -42,8 +42,8 @@
         "twig/twig": "^3.19"
     },
     "require-dev": {
-        "friendsofphp/php-cs-fixer": "^3.54",
-        "phpstan/phpstan": "^1.10",
+        "friendsofphp/php-cs-fixer": "^3.87",
+        "phpstan/phpstan": "^1.12",
         "phpunit/phpunit": "^11.1",
         "symfony/browser-kit": "7.2.*",
         "symfony/css-selector": "7.2.*",
@@ -85,6 +85,7 @@
         "symfony/polyfill-php81": "*"
     },
     "scripts": {
+        "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon.dist",
         "auto-scripts": {
             "cache:clear": "symfony-cmd",
             "assets:install %PUBLIC_DIR%": "symfony-cmd"

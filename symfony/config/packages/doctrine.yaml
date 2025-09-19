@@ -1,14 +1,8 @@
 doctrine:
     dbal:
-        # configure these for your database server
-        driver: 'pdo_mysql'
-        server_version: '5.7'
-        charset: utf8mb4
-        dbname: '%env(MYSQL_DATABASE)%'
-        host: '%env(MYSQL_HOST)%'
-        port: '%env(MYSQL_PORT)%'
-        user: '%env(MYSQL_USER)%'
-        password: '%env(MYSQL_PASSWORD)%'
+        # Utiliser la variable d'environnement DATABASE_URL (PostgreSQL)
+        # Exemple: DATABASE_URL="pgsql://symfony:symfony@db:5432/symfony?serverVersion=16&charset=utf8"
+        url: '%env(resolve:DATABASE_URL)%'
     orm:
         auto_generate_proxy_classes: true
         naming_strategy: doctrine.orm.naming_strategy.underscore_number_aware

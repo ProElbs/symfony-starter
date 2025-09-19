@@ -1,0 +1,45 @@
+services:
+  php:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+      target: prod
+    container_name: symfony-php
+    environment:
+      APP_ENV: prod
+      PHP_OPCACHE_VALIDATE_TIMESTAMPS: 0
+    depends_on:
+      - db
+    networks:
+      - symfony-starter
+
+  nginx:
+    image: nginx:1.27-alpine
+    container_name: symfony-nginx
+    volumes:
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./symfony/public:/var/www/html/public:ro
+    ports:
+      - "80:80"
+    depends_on:
+      - php
+    networks:
+      - symfony-starter
+
+  db:
+    image: postgres:16
+    container_name: symfony-postgres
+    environment:
+      POSTGRES_USER: symfony-starter
+      POSTGRES_PASSWORD: symfony-starter
+      POSTGRES_DB: symfony-starter
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - symfony-starter
+
+volumes:
+  postgres_data:
+
+networks:
+  symfony-starter:
