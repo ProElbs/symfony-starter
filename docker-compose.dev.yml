@@ -16,7 +16,7 @@ services:
       - db
       - mailcatcher
     networks:
-      - symfony
+      - symfony-starter
 
   nginx:
     image: nginx:1.27-alpine
@@ -29,21 +29,21 @@ services:
     depends_on:
       - php
     networks:
-      - symfony
+      - symfony-starter
 
   db:
     image: postgres:16
     container_name: symfony-postgres-dev
     environment:
-      POSTGRES_USER: symfony
-      POSTGRES_PASSWORD: symfony
-      POSTGRES_DB: symfony
+      POSTGRES_USER: symfony-starter
+      POSTGRES_PASSWORD: symfony-starter
+      POSTGRES_DB: symfony-starter
     volumes:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
     networks:
-      - symfony
+      - symfony-starter
 
   mailcatcher:
     image: sj26/mailcatcher
@@ -52,11 +52,11 @@ services:
       - "1080:1080"
       - "1025:1025"
     networks:
-      - symfony
+      - symfony-starter
 
 volumes:
   postgres_data:
   symfony_var:
 
 networks:
-  symfony:
+  symfony-starter:

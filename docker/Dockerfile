@@ -1,7 +1,7 @@
 # ---------------------------------------------------------
 # Étape 1 : Build vendors avec Composer
 # ---------------------------------------------------------
-FROM composer:2.7 AS vendor
+FROM composer:2.8 AS vendor
 
 WORKDIR /app
 COPY symfony/composer.json symfony/composer.lock ./

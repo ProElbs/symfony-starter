@@ -1,6 +1,6 @@
 PHP_SERVICE := php
 NODEJS_SERVICE := nodejs
-DB_SERVICE := db
+DB_SERVICE := db-symfony-starter
 PROJECT_NAME := symfony-starter
 
 # Utiliser docker compose (v2)
@@ -10,7 +10,7 @@ COMPOSE_FILE_PROD := docker-compose.prod.yml
 
 ##########
 # DOCKER #
-##########
+##########x
 build:
 	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) build
 	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) up -d
