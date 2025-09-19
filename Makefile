@@ -1,94 +1,99 @@
 PHP_SERVICE := php
 NODEJS_SERVICE := nodejs
-DB_SERVICE := dbstarter
+DB_SERVICE := db
 PROJECT_NAME := symfony-starter
+
+# Utiliser docker compose (v2)
+COMPOSE := docker compose
+COMPOSE_FILE_DEV := docker-compose.dev.yml
+COMPOSE_FILE_PROD := docker-compose.prod.yml
 
 ##########
 # DOCKER #
 ##########
 build:
-	@docker-compose build
-	@docker-compose up -d
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) build
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) up -d
 build-prod:
-	@docker-compose build
-	@docker-compose -f docker-compose.prod.yml up -d
+	@$(COMPOSE) -f $(COMPOSE_FILE_PROD) build
+	@$(COMPOSE) -f $(COMPOSE_FILE_PROD) up -d
 start:
-	@docker-compose up -d
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) up -d
 start-prod:
-	@docker-compose -f docker-compose.prod.yml up -d
+	@$(COMPOSE) -f $(COMPOSE_FILE_PROD) up -d
 stop:
-	@docker-compose stop
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) stop
 restart:
-	@docker-compose stop
-	@docker-compose up -d
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) stop
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) up -d
 bash:
-	docker exec -it $(PROJECT_NAME)-$(PHP_SERVICE)-1 bash
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) exec $(PHP_SERVICE) sh
 
 ############
 # COMPOSER #
 ############
 composer-install:
-	@docker-compose exec -T $(PHP_SERVICE) composer install
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) exec -T $(PHP_SERVICE) composer install
 composer-install-prod:
-	@docker-compose exec -T $(PHP_SERVICE) composer install --no-dev --optimize-autoloader
+	@$(COMPOSE) -f $(COMPOSE_FILE_PROD) exec -T $(PHP_SERVICE) composer install --no-dev --optimize-autoloader
 composer-require:
-	@docker-compose exec -T $(PHP_SERVICE) composer require $(COMMAND_ARGS)
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) exec -T $(PHP_SERVICE) composer require $(COMMAND_ARGS)
 composer-remove:
-	@docker-compose exec -T $(PHP_SERVICE) composer remove $(COMMAND_ARGS)
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) exec -T $(PHP_SERVICE) composer remove $(COMMAND_ARGS)
 
 ############
 # DATABASE #
 ############
 install-db:
-	@docker-compose exec -T $(PHP_SERVICE) bin/console doctrine:database:drop --force
-	@docker-compose exec -T $(PHP_SERVICE) bin/console doctrine:database:create
-	@docker-compose exec -T $(PHP_SERVICE) bin/console doctrine:migrations:migrate
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) exec -T $(PHP_SERVICE) bin/console doctrine:database:drop --force || true
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) exec -T $(PHP_SERVICE) bin/console doctrine:database:create
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) exec -T $(PHP_SERVICE) bin/console doctrine:migrations:migrate -n
 
 migrations-diff:
-	@docker-compose exec -T $(PHP_SERVICE) bin/console doctrine:migrations:diff
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) exec -T $(PHP_SERVICE) bin/console doctrine:migrations:diff
 
 migrations-migrate:
-	@docker-compose exec -T $(PHP_SERVICE) bin/console doctrine:migrations:migrate
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) exec -T $(PHP_SERVICE) bin/console doctrine:migrations:migrate -n
 
 #########
 # TOOLS #
 #########
 phpstan:
-	@docker-compose exec -T $(PHP_SERVICE) vendor/bin/phpstan analyse -l 8 src --memory-limit=4G
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) exec -T $(PHP_SERVICE) vendor/bin/phpstan analyse -l 8 src --memory-limit=4G
 
 php-cs-fixer:
-	@docker-compose exec -T $(PHP_SERVICE) vendor/bin/php-cs-fixer fix -v --dry-run
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) exec -T $(PHP_SERVICE) vendor/bin/php-cs-fixer fix -v --dry-run
 
 php-cs-fixer-fix:
-	@docker-compose exec -T $(PHP_SERVICE) vendor/bin/php-cs-fixer fix -v
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) exec -T $(PHP_SERVICE) vendor/bin/php-cs-fixer fix -v
 
 ###########
 # SYMFONY #
 ###########
 cache-clear:
-	@docker-compose exec -T $(PHP_SERVICE) bin/console cache:clear
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) exec -T $(PHP_SERVICE) bin/console cache:clear
 
 #########
 # TESTS #
 #########
 phpunit:
-	@docker-compose exec -T $(PHP_SERVICE) vendor/bin/phpunit
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) exec -T $(PHP_SERVICE) vendor/bin/phpunit
 
 ########################################################
 #                        NPM                           #
 # Beta, first install Webpack to use npm with symfony  #
 ########################################################
 npm-install:
-	@docker-compose run --rm $(NODEJS_SERVICE) npm install
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) run --rm $(NODEJS_SERVICE) npm install
 
 npm-add:
-	@docker-compose run --rm $(NODEJS_SERVICE) npm install -D $(COMMAND_ARGS)
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) run --rm $(NODEJS_SERVICE) npm install -D $(COMMAND_ARGS)
 
 npm-dev:
-	@docker-compose run --rm $(NODEJS_SERVICE) npm run dev
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) run --rm $(NODEJS_SERVICE) npm run dev
 
 npm-build:
-	@docker-compose run --rm $(NODEJS_SERVICE) npm run build
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) run --rm $(NODEJS_SERVICE) npm run build
 
 ###########
 # GLOBALS #
