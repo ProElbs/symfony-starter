@@ -1,16 +1,14 @@
 # ---------------------------------------------------------
 # Étape 1 : Build vendors avec Composer
 # ---------------------------------------------------------
-FROM composer:2.8 AS vendor
+FROM composer:2.9 AS vendor
 
 WORKDIR /app
 COPY symfony/composer.json symfony/composer.lock ./
 RUN composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction --no-scripts
 
 # ---------------------------------------------------------
-# Étape 2 : Image PHP-FPM
-# ---------------------------------------------------------
-FROM php:8.4-fpm AS base
+FROM php:8.5-fpm AS base
 
 # Variables d'environnement
 ENV COMPOSER_ALLOW_SUPERUSER=1 \
@@ -27,7 +25,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
  && update-ca-certificates \
  && docker-php-ext-configure gd --with-freetype --with-jpeg \
  && docker-php-ext-install -j$(nproc) \
-    gd intl mbstring opcache pdo_pgsql zip bcmath \
+    gd intl mbstring pdo_pgsql zip bcmath \
  && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /var/www/html
@@ -69,7 +67,7 @@ COPY symfony .
 # Copier le fichier .env (si présent) pour les variables d'environnement en prod
 COPY .env ./.env
 
-RUN chown -R www-data:www-data /var/www/html/var
+RUN chown -R www-data:www-data /var/www/html/var /var/www/html/vendor
 
 # Optimiser l'autoload en production (sans exécuter les scripts)
 RUN composer dump-autoload --no-dev --classmap-authoritative --optimize

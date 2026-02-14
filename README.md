@@ -78,6 +78,3 @@ make php-cs-fixer
 ## 📄 License
 
 This project is licensed under the MIT License
-
-## Version
-v2.0.0

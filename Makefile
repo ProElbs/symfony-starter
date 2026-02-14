@@ -27,7 +27,7 @@ restart:
 	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) stop
 	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) up -d
 bash:
-	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) exec $(PHP_SERVICE) sh
+	@$(COMPOSE) -f $(COMPOSE_FILE_DEV) exec $(PHP_SERVICE) bash
 
 ############
 # COMPOSER #
@@ -99,4 +99,6 @@ npm-build:
 # GLOBALS #
 ###########
 install: build composer-install install-db cache-clear
+install-prod: build-prod composer-install-prod install-db cache-clear
+
 
